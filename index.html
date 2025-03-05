@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Carrier Referral Campaign Newsletter</title>
+    <!-- Importing a modern font from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ---------- Global Reset & CSS Variables ---------- */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        font-size: 16px;
+      }
+      body {
+        font-family: 'Roboto', Arial, sans-serif;
+        background: linear-gradient(135deg, #0c7acc 0%, #0263f1 35%, #00d4ff 100%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        position: relative;
+        overflow-x: hidden;
+      }
+      :root {
+        --primary-color: #273270;
+        --secondary-color: #1d2557;
+        --accent-color: #00d4ff;
+        --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      }
+
+      /* ---------- Navigation Bar with Glassmorphism ---------- */
+      nav.navigationBar {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        padding: 10px 20px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        transition: background 0.3s ease;
+      }
+      nav.navigationBar a {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 0.95rem;
+        padding: 8px 0;
+        transition: color 0.3s ease;
+      }
+      nav.navigationBar a:hover {
+        color: #fff;
+      }
+
+      /* ---------- Location Selector ---------- */
+      .loc-selector {
+        font-size: 1rem;
+        color: var(--primary-color);
+        background: transparent;
+        padding: 8px 12px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        position: relative;
+      }
+      .loc-selector label {
+        font-weight: bold;
+      }
+      .loc-selector select {
+        background: #fff;
+        color: var(--primary-color);
+        border: 2px solid var(--primary-color);
+        padding: 10px 16px;
+        border-radius: 30px;
+        font-weight: bold;
+        font-size: 0.95rem;
+        appearance: none;
+        cursor: pointer;
+        transition: border-color 0.3s ease;
+      }
+      .loc-selector select:focus {
+        outline: none;
+        border-color: var(--primary-color);
+      }
+      .loc-selector::after {
+        content: "▼";
+        font-size: 0.8rem;
+        color: var(--primary-color);
+        position: absolute;
+        right: 18px;
+        pointer-events: none;
+      }
+
+      /* ---------- Header & Logo ---------- */
+      header {
+        text-align: center;
+        padding: 20px 0;
+      }
+      .logoWrapper img {
+        max-width: 300px;
+        transition: transform 0.3s ease;
+      }
+      .logoWrapper img:hover {
+        transform: scale(1.05);
+      }
+
+      /* ---------- Newsletter Header ---------- */
+      .newsletterHeader {
+        text-align: center;
+        margin-bottom: 50px;
+      }
+      .newsletterHeader h1 {
+        font-size: 4rem;
+        color: #fff;
+        margin-bottom: 5px;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        transition: transform 0.3s ease;
+      }
+      .newsletterHeader h1:hover {
+        transform: scale(1.03);
+      }
+      .newsletterHeader h2 {
+        font-size: 2.7rem;
+        color: #fff;
+        font-weight: normal;
+      }
+
+      /* ---------- Minimalistic Edit Controls Accordion ---------- */
+      #editAccordion {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        border-radius: 5px;
+        overflow: hidden;
+        z-index: 1000;
+        transition: opacity 0.3s ease;
+        opacity: 0.3;
+      }
+      #editAccordion:hover {
+        opacity: 1;
+      }
+      #accordionHeader {
+        padding: 5px 10px;
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: #fff;
+        background: rgba(0, 0, 0, 0.2);
+        text-align: center;
+        user-select: none;
+      }
+      #editContainer {
+        display: none;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.8);
+        border-top: 1px solid #ccc;
+      }
+      #editContainer button {
+        padding: 6px 12px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        margin-right: 5px;
+      }
+
+      /* ---------- Nav Toggle Button (Mobile) ---------- */
+      #navToggle {
+        display: none;
+        padding: 10px 20px;
+        background: var(--primary-color);
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        z-index: 1100;
+      }
+
+      /* ---------- Main Newsletter Wrapper ---------- */
+      .newsletterWrapper {
+        width: 100%;
+        max-width: 900px;
+        margin: auto;
+        padding-bottom: 300px;
+        position: relative;
+      }
+
+      /* ---------- Content Sections with Modern Effects ---------- */
+      .contentBox {
+        background: #fff;
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        box-shadow: var(--shadow);
+        margin-bottom: 40px;
+        position: relative;
+        width: 850px;
+        padding: 35px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .contentBox:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+      }
+      .contentBox h3 {
+        font-size: 1.6rem;
+        color: #003366;
+        margin-bottom: 10px;
+      }
+      .contentBox p {
+        font-size: 0.95rem;
+        color: #333;
+        line-height: 1.4;
+        margin-bottom: 15px;
+      }
+      .sectionHeader {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+      .circleIndicator {
+        width: 25px;
+        height: 25px;
+        background: #fff;
+        border-radius: 30%;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        margin-right: 10px;
+      }
+      .btn {
+        display: inline-block;
+        padding: 12px 20px;
+        background: var(--primary-color);
+        color: #fff;
+        text-decoration: none;
+        border-radius: 30px;
+        font-weight: bold;
+        font-size: 0.95rem;
+        transition: background 0.3s ease, transform 0.3s ease;
+        border: 2px solid #fff;
+      }
+      .btn:hover {
+        background: var(--secondary-color);
+        transform: scale(1.03);
+      }
+      .ctaWrapper {
+        margin-top: 20px;
+      }
+
+      /* ---------- Image Row with Animated Hover Effects ---------- */
+      .imageRow {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 60px;
+      }
+      .imgContainer {
+        position: relative;
+        width: 250px;
+        height: 250px;
+        display: inline-block;
+        overflow: hidden;
+        border-radius: 10px;
+      }
+      .imgContainer img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border: 3px solid #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        transition: transform 0.3s ease, filter 0.3s ease;
+      }
+      .imgContainer:hover img {
+        transform: scale(1.05);
+        filter: brightness(1.1);
+      }
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: #fff;
+        background: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        border-radius: 10px;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+      }
+      .imgContainer:hover .overlay {
+        opacity: 1;
+      }
+
+      /* ---------- Dual Content Layout (Apprenticeship Section) ---------- */
+      .dualContent {
+        display: flex;
+        gap: 50px;
+        flex-wrap: wrap;
+        align-items: flex-start;
+      }
+      .dualContent .apprenticeshipBox {
+        flex: 1;
+        min-width: 180px;
+        max-width: 420px;
+        height: 350px;
+      }
+      .dualContent .enhancedBonusSection {
+        flex: 1;
+        min-width: 280px;
+        color: #fff;
+        text-align: left;
+        position: relative;
+        z-index: 2;
+      }
+      .enhancedBonusSection h3 {
+        font-size: 3rem;
+        line-height: 0.8;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+      }
+      .enhancedBonusSection p {
+        font-size: 0.95rem;
+        line-height: 1.4;
+      }
+      .enhancedBonusSection p.bonusAmount {
+        font-size: 3rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+        transition: transform 0.3s ease, color 0.3s ease;
+      }
+      .enhancedBonusSection p.bonusAmount:hover {
+        transform: scale(1.07);
+        color: var(--secondary-color);
+      }
+
+      /* ---------- Decorative Corner Image ---------- */
+      .decorativeCornerImage {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        pointer-events: none;
+        z-index: -1;
+      }
+      .decorativeCornerImage img {
+        width: 500px;
+        max-width: 100%;
+        height: auto;
+        object-fit: contain;
+      }
+
+      /* ---------- Responsive Adjustments ---------- */
+      @media (max-width: 600px) {
+        #navToggle {
+          display: block;
+        }
+        nav.navigationBar {
+          display: none;
+          flex-direction: column;
+          align-items: center;
+          width: 100%;
+        }
+        nav.navigationBar.open {
+          display: flex;
+        }
+        .imageRow img:first-child,
+        .imageRow img:last-child {
+          display: none;
+        }
+        .overlay {
+          display: none;
+        }
+        .decorativeCornerImage {
+          bottom: -100px;
+          left: 0;
+        }
+        .loc-selector {
+          align-self: center;
+        }
+        .imageRow {
+          flex-direction: column;
+          align-items: center;
+        }
+        .imageRow img {
+          margin-bottom: 20px;
+        }
+        .dualContent {
+          flex-direction: column;
+        }
+        .enhancedBonusSection {
+          text-align: center;
+        }
+        .newsletterWrapper {
+          padding-bottom: 350px;
+        }
+        .referralContainer,
+        .contentBox,
+        .apprenticeshipContainer {
+          width: 100%;
+        }
+      }
+
+      /* ---------- Editable Fields Styling ---------- */
+      .editable[contenteditable="true"] {
+        border: 1px dashed #ccc;
+        padding: 4px;
+      }
+
+      /* ---------- Modal Popup Styles ---------- */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 2000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.8);
+      }
+      .modal-content {
+        background-color: #fff;
+        margin: 5% auto;
+        padding: 20px;
+        border-radius: 10px;
+        width: 80%;
+        max-width: 800px;
+        position: relative;
+      }
+      .close-button {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 30px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      #jobIframe {
+        width: 100%;
+        height: 500px;
+        border: none;
+      }
+
+      /* ---------- Footer Styles ---------- */
+      footer {
+        background-color: var(--primary-color);
+        color: #fff;
+        padding: 20px 0;
+        width: 100%;
+        text-align: center;
+        margin-top: 40px;
+        border-top: 5px solid var(--accent-color);
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+      }
+      footer .social-media {
+        margin-bottom: 10px;
+      }
+      footer .social-media a {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        margin: 0 10px;
+        border-radius: 50%;
+        background-color: #fff;
+        color: var(--primary-color);
+        text-decoration: none;
+        font-size: 1.2rem;
+        font-weight: bold;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+      footer .social-media a:hover {
+        background-color: var(--accent-color);
+        color: #fff;
+      }
+      footer .footer-text {
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Minimalistic Accordion for Edit Controls (Bottom Left) -->
+    <div id="editAccordion">
+      <div id="accordionHeader">+</div>
+      <div id="editContainer">
+        <button id="editToggle">Edit</button>
+        <button id="saveChanges">Save</button>
+      </div>
+    </div>
+
+    <!-- Header Section with Logo -->
+    <header>
+      <div class="logoWrapper">
+        <img
+          src="https://images.carriercms.com/image/upload/w_175/v1629825291/common/logos-svg/carrier-logo.svg"
+          alt="Carrier Logo"
+        />
+      </div>
+    </header>
+
+    <!-- Mobile Navigation Toggle Button -->
+    <button id="navToggle">Menu</button>
+
+    <!-- Navigation Bar with Links and Location Selector -->
+    <nav class="navigationBar">
+      <a href="https://example.com/hvac" data-key="navHVAC" rel="noopener noreferrer" title="Carrier HVAC News">HVAC</a>
+      <a href="https://example.com/refrigeration" data-key="navRefrigeration" rel="noopener noreferrer" title="Carrier Refrigeration News">Refrigeration</a>
+      <a href="https://example.com/fire-security" data-key="navFireSecurity" rel="noopener noreferrer" title="Carrier Fire & Security News">Fire &amp; Security</a>
+      <a href="https://example.com/financial" data-key="navFinancial" rel="noopener noreferrer" title="Carrier Financial News">Financial Peers</a>
+      <a href="https://example.com/economic" data-key="navEconomicNews" rel="noopener noreferrer" title="Carrier Economic News">Economic News</a>
+      <!-- Location Selector -->
+      <div class="loc-selector">
+        <label for="location">Location:</label>
+        <select id="location">
+          <option value="BE" selected>Belgium – Nederlands</option>
+          <option value="BE-FR">Belgium – Français</option>
+          <option value="NL">Nederland – Nederlands</option>
+          <option value="FR">France – Français</option>
+          <option value="DE">Germany – Deutsch</option>
+          <option value="ES">Spain – Español</option>
+          <option value="UK">United Kingdom – English</option>
+        </select>
+      </div>
+    </nav>
+
+    <!-- Main Newsletter Wrapper -->
+    <main class="newsletterWrapper">
+      <!-- Newsletter Header -->
+      <div class="newsletterHeader">
+        <h1 id="mainTitle" class="editable" contenteditable="false"></h1>
+        <h2 id="campaignSubTitle" class="editable" contenteditable="false"></h2>
+      </div>
+
+      <!-- Referral Section -->
+      <section class="referralContainer">
+        <div class="imageRow">
+          <div class="imgContainer">
+            <img
+              src="https://images.carriercms.com/image/upload/w_500,h_400,c_fill,g_center,q_auto,f_auto/v1649170787/carrier/commercial-hvac-europe/service/carrier-bluedge-service-technician-on-site_sq.jpg"
+              id="image1"
+              alt="Technician On Site"
+            />
+            <div class="overlay editable" id="overlayImage1" contenteditable="false">Learn</div>
+          </div>
+          <div class="imgContainer">
+            <img
+              src="https://images.carriercms.com/image/upload/w_500,h_400,c_fill,g_center,q_auto,f_auto/v1648732922/carrier/commercial-hvac-europe/service/carrier-bluedge-service-technician-maintenance_sq.jpg"
+              id="image2"
+              alt="Technician Maintenance"
+            />
+            <div class="overlay editable" id="overlayImage2" contenteditable="false">Earn</div>
+          </div>
+          <div class="imgContainer">
+            <img
+              src="https://images.carriercms.com/image/upload/v1707516173/carrier/commercial-hvac-europe/news-releases/uk/carrier-bluedge-technician.jpg"
+              id="image3"
+              alt="Technician"
+            />
+            <div class="overlay editable" id="overlayImage3" contenteditable="false">Certify</div>
+          </div>
+        </div>
+        <div class="contentBox">
+          <div class="sectionHeader">
+            <div class="circleIndicator"></div>
+            <h3 id="referralHeading" class="editable" contenteditable="false"></h3>
+          </div>
+          <p id="referralParagraph" class="editable" contenteditable="false"></p>
+          <div class="ctaWrapper">
+            <!-- When this button is clicked, the job modal popup will appear -->
+            <a href="#" class="btn editable" id="referralCTA" contenteditable="false"></a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Apprenticeship Section -->
+      <section class="apprenticeshipContainer">
+        <div class="dualContent">
+          <div class="contentBox apprenticeshipBox">
+            <div class="sectionHeader">
+              <div class="circleIndicator"></div>
+              <h3 id="apprenticeshipHeading" class="editable" contenteditable="false"></h3>
+            </div>
+            <p id="apprenticeshipParagraph" class="editable" contenteditable="false"></p>
+            <div class="ctaWrapper">
+              <a href="#" class="btn editable" id="apprenticeshipCTA" contenteditable="false"></a>
+            </div>
+          </div>
+          <div class="enhancedBonusSection">
+            <h3 id="enhancedBonusHeading" class="editable" contenteditable="false"></h3>
+            <p class="bonusAmount editable" id="enhancedBonusAmount" contenteditable="false"></p>
+            <p id="enhancedBonusParagraph" class="editable" contenteditable="false"></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Decorative Corner Image -->
+      <div class="decorativeCornerImage">
+        <img
+          src="https://d15k2d11r6t6rl.cloudfront.net/pub/bfra/2ey3f6mh/rb2/k0z/fsc/Remove%20background%20project.png"
+          id="decorativeImage"
+          alt="Decorative Corner Image"
+        />
+      </div>
+    </main>
+
+    <!-- Job Modal Popup -->
+    <div id="jobModal" class="modal">
+      <div class="modal-content">
+        <span class="close-button" id="jobModalClose">&times;</span>
+        <!-- Instructions updated based on current location -->
+        <p id="jobModalInstructions"></p>
+        <!-- Initially, display the job options list -->
+        <div id="jobOptions">
+          <h2>Job Options</h2>
+          <ul>
+            <li>
+              <a href="#" data-job-url="" class="job-option">
+                View Vacancy
+              </a>
+            </li>
+          </ul>
+        </div>
+        <!-- Hidden container for the floating iframe -->
+        <div id="jobIframeContainer" style="display: none;">
+          <iframe id="jobIframe" src=""></iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- Single Footer with Rounded Top Blue Line -->
+    <footer>
+      <div class="social-media">
+        <a href="https://www.facebook.com/carrier" target="_blank" class="social-icon facebook">f</a>
+        <a href="https://twitter.com/carrier" target="_blank" class="social-icon twitter">t</a>
+        <a href="https://www.linkedin.com/company/carrier" target="_blank" class="social-icon linkedin">in</a>
+        <a href="https://www.youtube.com/user/Carrier" target="_blank" class="social-icon youtube">yt</a>
+      </div>
+      <div class="footer-text">
+        <p>&copy; 2025 Carrier. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- Script: Location Switching, Edit Mode, Accordion, Auto Save & Job Modal -->
+    <script>
+      /* ---------- Default Text Content & Functions ---------- */
+      /* (Identical to the earlier code snippet) */
+      const DEFAULT_TEXT_CONTENT = {
+        /* ... your location-based text objects ... */
+      };
+
+      function loadContent(location) {
+        const saved = localStorage.getItem("carrierTextContent_" + location);
+        return saved ? JSON.parse(saved) : DEFAULT_TEXT_CONTENT[location];
+      }
+
+      function saveContent(location, content) {
+        localStorage.setItem("carrierTextContent_" + location, JSON.stringify(content));
+      }
+
+      let currentLocation = "BE";
+      let currentContent = loadContent(currentLocation);
+
+      function updateLocation(location) {
+        currentLocation = location;
+        currentContent = loadContent(location) || {};
+        console.log("Location updated to:", location, currentContent);
+
+        for (const key in currentContent) {
+          const element = document.getElementById(key);
+          if (element) {
+            if (element.tagName === "IMG") {
+              element.alt = currentContent[key];
+            } else {
+              element.textContent = currentContent[key];
+            }
+          }
+        }
+
+        document.querySelectorAll(".navigationBar a").forEach((link) => {
+          const dataKey = link.getAttribute("data-key");
+          if (dataKey && currentContent[dataKey]) {
+            link.textContent = currentContent[dataKey];
+          }
+        });
+
+        ["image1", "image2", "image3", "decorativeImage"].forEach((id) => {
+          const el = document.getElementById(id);
+          if (el && currentContent) {
+            if (id === "decorativeImage" && currentContent.decorativeImageAlt) {
+              el.alt = currentContent.decorativeImageAlt;
+            } else if (currentContent["imageAlt" + id.charAt(id.length - 1)]) {
+              el.alt = currentContent["imageAlt" + id.charAt(id.length - 1)];
+            }
+          }
+        });
+
+        const jobInstr = document.getElementById("jobModalInstructions");
+        if (jobInstr && currentContent.jobModalInstructions) {
+          jobInstr.textContent = currentContent.jobModalInstructions;
+        }
+      }
+
+      const locationSelect = document.getElementById("location");
+      updateLocation(locationSelect.value);
+      locationSelect.addEventListener("change", function () {
+        updateLocation(this.value);
+      });
+
+      /* ---------- Mobile nav toggle ---------- */
+      const navToggle = document.getElementById("navToggle");
+      const navigationBar = document.querySelector("nav.navigationBar");
+      navToggle.addEventListener("click", function () {
+        navigationBar.classList.toggle("open");
+      });
+
+      /* ---------- Edit Mode & Saving ---------- */
+      const editToggle = document.getElementById("editToggle");
+      const saveButton = document.getElementById("saveChanges");
+      let isEditable = false;
+      const bossPassword = "12345";
+
+      editToggle.addEventListener("click", function () {
+        if (!isEditable) {
+          const pwd = prompt("Enter password to enable editing:");
+          if (pwd !== bossPassword) {
+            alert("Incorrect password!");
+            return;
+          }
+        }
+        isEditable = !isEditable;
+        document.querySelectorAll(".editable").forEach((elem) => {
+          elem.contentEditable = isEditable;
+          elem.style.border = isEditable ? "1px dashed #ccc" : "none";
+        });
+        editToggle.textContent = isEditable ? "Disable Edit Mode" : "Edit";
+      });
+
+      document.querySelectorAll(".editable").forEach((elem) => {
+        elem.addEventListener("input", function () {
+          const key = this.id;
+          if (key && currentContent[key] !== undefined) {
+            currentContent[key] = this.textContent;
+            saveContent(currentLocation, currentContent);
+          }
+        });
+        elem.addEventListener("blur", function () {
+          const key = this.id;
+          if (key && currentContent[key] !== undefined) {
+            currentContent[key] = this.textContent;
+            saveContent(currentLocation, currentContent);
+          }
+        });
+      });
+
+      saveButton.addEventListener("click", function () {
+        document.querySelectorAll(".editable").forEach((elem) => {
+          const key = elem.id;
+          if (key && currentContent[key] !== undefined) {
+            currentContent[key] = elem.textContent;
+          }
+        });
+        saveContent(currentLocation, currentContent);
+        alert("Changes saved for " + currentLocation + "!");
+      });
+
+      /* ---------- Accordion for edit controls ---------- */
+      const accordionHeader = document.getElementById("accordionHeader");
+      const editContainer = document.getElementById("editContainer");
+      accordionHeader.addEventListener("click", function () {
+        if (editContainer.style.display === "none" || editContainer.style.display === "") {
+          editContainer.style.display = "block";
+          accordionHeader.textContent = "–";
+        } else {
+          editContainer.style.display = "none";
+          accordionHeader.textContent = "+";
+        }
+      });
+
+      /* ---------- Job Modal Popup ---------- */
+      const jobModal = document.getElementById("jobModal");
+      const jobModalClose = document.getElementById("jobModalClose");
+      const jobOptionsDiv = document.getElementById("jobOptions");
+      const jobIframeContainer = document.getElementById("jobIframeContainer");
+      const jobIframe = document.getElementById("jobIframe");
+
+      function openJobModal() {
+        // Update instructions from current content
+        const jobInstr = document.getElementById("jobModalInstructions");
+        if (jobInstr && currentContent.jobModalInstructions) {
+          jobInstr.textContent = currentContent.jobModalInstructions;
+        }
+        jobOptionsDiv.style.display = "block";
+        jobIframeContainer.style.display = "none";
+        jobIframe.src = "";
+        jobModal.style.display = "block";
+      }
+      function closeJobModal() {
+        jobModal.style.display = "none";
+      }
+
+      const referralCTA = document.getElementById("referralCTA");
+      referralCTA.addEventListener("click", function (e) {
+        e.preventDefault();
+        const jobOptionLink = document.querySelector(".job-option");
+        if (currentLocation === "UK") {
+          jobOptionLink.setAttribute("data-job-url", "https://jobs.carrier.com/en/search-jobs/United%20Kingdom/29289/2/2635167/54x75844/-2x69531/50/2");
+        } else if (currentLocation === "NL") {
+          jobOptionLink.setAttribute("data-job-url", "https://jobs.carrier.com/en/search-jobs/Netherlands/29289/2/2750405/52x25/5x75/50/2");
+        } else if (currentLocation === "FR") {
+          jobOptionLink.setAttribute("data-job-url", "https://jobs.carrier.com/en/search-jobs/Technicien/France/29289/1/2/3017382/46/2/50/2");
+        } else if (currentLocation === "DE") {
+          jobOptionLink.setAttribute("data-job-url", "https://jobs.carrier.com/en/search-jobs/Servicetechniker/Germany/29289/1/2/2921044/51x5/10x5/50/2");
+        } else {
+          jobOptionLink.setAttribute("data-job-url", "https://jobs.carrier.com/en/search-jobs/Spain/29289/2/2510769/40/-4/50/2");
+        }
+        openJobModal();
+      });
+
+      document.querySelectorAll(".job-option").forEach(function (link) {
+        link.addEventListener("click", function (e) {
+          e.preventDefault();
+          const jobUrl = this.getAttribute("data-job-url");
+          if (jobUrl) {
+            jobIframe.src = jobUrl;
+            jobOptionsDiv.style.display = "none";
+            jobIframeContainer.style.display = "block";
+          }
+        });
+      });
+
+      jobModalClose.addEventListener("click", function () {
+        closeJobModal();
+      });
+      window.addEventListener("click", function (event) {
+        if (event.target === jobModal) {
+          closeJobModal();
+        }
+      });
+    </script>
+  </body>
+</html>
